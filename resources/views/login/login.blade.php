@@ -21,7 +21,7 @@
         padding: 1rem;
     }
     .go-to{
-        color: #0B629E; 
+        color: #0B629E;
     }
     .btn-custom {
         background-color: #0B629E; /* Button background color */
@@ -58,7 +58,7 @@
     }
 
     .separator span {
-  
+
         padding: 0 1rem;
         position: relative;
         z-index: 2;
@@ -76,7 +76,7 @@
                                <img src="{{ asset('images/logo.png') }}" alt="B laban" style="max-width: 100%; height: auto;">
                             </p>
                         </div>
-                        <form class="row gy-3" action="{{ url('login') }}" method="post">
+                        <form class="row gy-3" action="{{ route('login.post') }}" method="post">
                             @csrf
                             <div class="col-12">
                                 <label for="emailInp" class="form-label">Email</label>

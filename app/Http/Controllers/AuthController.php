@@ -19,49 +19,48 @@ class AuthController extends Controller
 
     public function registerIndex()
     {
-        return view('login.register'); 
+        return view('login.register');
     }
 
     public function login(Request $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|min:8',
-        ]);
-
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('/');
+            // Redirect to the home page after successful login
+            return redirect()->route('home')->with('success', 'Logged in successfully.');
         }
 
-        toastr()->error('Invalid email or password');
-        return redirect()->route('login'); // Use named route
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
-
     public function register(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:8', // Ensure password confirmation is required
         ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        // Create the user and hash the password
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
 
+        // Log the user in
         Auth::login($user);
-        toastr()->success('Registration successful!');
-        return redirect('/');
+
+        return redirect()->route('homescreen.index')->with('success', 'Registration successful.');
     }
+
 
     public function logout(Request $request)
     {
         Auth::logout();
         toastr()->success('Logout successful!');
-        return redirect()->route('login'); 
+        return redirect()->route('login');
     }
 }

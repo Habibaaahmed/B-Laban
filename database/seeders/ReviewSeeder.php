@@ -10,7 +10,7 @@ class ReviewSeeder extends Seeder
     public function run()
     {
         $reviews = [
-            ['comment' => 'Excellent product!', 'product_id' => 51, 'rating' => 5, 'user_id' => 1],
+            ['comment' => 'Excellent product!', 'product_id' => 1, 'rating' => 5, 'user_id' => 1],
             ['comment' => 'Very good, but could be better.', 'product_id' => 52, 'rating' => 4, 'user_id' => 2],
             ['comment' => 'It was okay.', 'product_id' => 56, 'rating' => 3, 'user_id' => 3],
             ['comment' => 'Not what I expected.', 'product_id' => 57, 'rating' => 2, 'user_id' => 4],

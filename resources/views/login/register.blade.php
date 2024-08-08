@@ -4,7 +4,7 @@
 
 <style>
     .bg-custom {
-        background-color: #003060; 
+        background-color: #003060;
     }
 
     .card {
@@ -14,7 +14,7 @@
         padding: 1rem;
     }
     .go-to{
-        color: #0B629E; 
+        color: #0B629E;
     }
     .btn-custom {
         background-color: #0B629E;
@@ -23,8 +23,8 @@
     }
 
     .btn-custom:hover {
-        background-color: #003060; 
-        color: white; 
+        background-color: #003060;
+        color: white;
     }
 </style>
 
@@ -39,29 +39,30 @@
                                <img src="{{ asset('images/logo.png') }}" alt="B laban" style="max-width: 100%; height: auto;">
                             </p>
                         </div>
-                        <form class="row gy-3" action="{{url('register')}}" method="post">
-                            @csrf
-                            <div class="col-12">
-                                <label for="nameInp" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="nameInp" name="name"
-                                    value="{{old('name')}}">
-                                @error('name')<small class="text-danger">{{$message}}</small>@enderror
-                            </div>
-                            <div class="col-12">
-                                <label for="emailInp" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="emailInp" name="email"
-                                    value="{{old('email')}}">
-                                @error('email')<small class="text-danger">{{$message}}</small>@enderror
-                            </div>
-                            <div class="col-12">
-                                <label for="passInp" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="passInp" name="password">
-                                @error('password')<small class="text-danger">{{$message}}</small>@enderror
-                            </div>
-                            <div class="col-12">
-                                <button class="btn-custom btn btn-primary w-100" type="submit">Register</button>
-                            </div>
-                        </form>
+                        <form class="row gy-3"action="{{ route('register.post') }}" method="POST">
+    @csrf
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+        @error('name') <small class="text-danger">{{ $message }}</small> @enderror
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+        @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+        @error('password') <small class="text-danger">{{ $message }}</small> @enderror
+    </div>
+    <div class="form-group">
+        <label for="password_confirmation">Confirm Password</label>
+        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+    </div>
+    <button type="submit" class="btn-custom btn btn-primary w-100">Register</button>
+</form>
+
                         <div class="mt-3 text-center">
                             <p class="mb-0">
                                 Already have an account?
