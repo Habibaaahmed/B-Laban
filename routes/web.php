@@ -32,10 +32,16 @@ Route::get('/', [AuthController::class, 'loginIndex'])->name('login');
 
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('/category/{id}/search', [CategoryController::class, 'search'])->name('category.search');
+
+
 
 Route::get('product/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::post('product/{id}/review', [ReviewController::class, 'store'])->middleware('auth')->name('product.review.store');
 
+
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 
 

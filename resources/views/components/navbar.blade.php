@@ -74,13 +74,13 @@
             <img src="{{ asset('images/logo.png') }}" alt="B laban">
         </div>
         <div class="nav-links">
-            <a href="#home">Home</a>
+        <a href="{{ url('/home') }}">Home</a>
             <a href="#menu">Menu</a>
             <a href="#services">Services</a>
-            <a href="#">Offers</a>
+            <a href="#contact">Contact</a>
         </div>
         <div class="nav-icons">
-            <img src="{{ asset('images/search.png') }}" alt="Search">
+            <!-- <img src="{{ asset('images/search.png') }}" alt="Search"> -->
             <img src="{{ asset('images/cart.png') }}" alt="Cart">
             <a href="#" class="contact-btn"><img src="{{ asset('images/vector.png') }}">Contact</a>
         </div>
