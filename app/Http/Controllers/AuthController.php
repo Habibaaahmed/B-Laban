@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -63,4 +67,38 @@ class AuthController extends Controller
         toastr()->success('Logout successful!');
         return redirect()->route('login');
     }
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+
+            $user = User::updateOrCreate([
+                'email' => $googleUser->getEmail(),
+            ], [
+                'name' => $googleUser->getName(),
+                'google_id' => $googleUser->getId(),
+                'avatar' => $googleUser->getAvatar(),
+                'password' => Hash::make(Str::random(16)),
+            ]);
+
+            Auth::login($user);
+
+            Log::info('Google login successful, user ID: ' . $user->id);
+
+            return redirect()->route('home');
+
+        } catch (ConnectException $e) {
+            Log::error('Connection error during Google login: ' . $e->getMessage());
+            return redirect('/')->with('status', 'There was a problem with Google login.')->with('statusType', 'error');
+        } catch (\Exception $e) {
+            Log::error('Error during Google login: ' . $e->getMessage());
+            return redirect('/')->with('status', 'There was a problem with Google login.')->with('statusType', 'error');
+        }
+    }
+
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ice Cream Page</title>
+    <title>B-Laban</title>
     <style>
         .nav {
             display: flex;
@@ -74,15 +74,13 @@
             <img src="{{ asset('images/logo.png') }}" alt="B laban">
         </div>
         <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#menu">Menu</a>
-            <a href="#services">Services</a>
-            <a href="#">Offers</a>
+            <a href="{{ route('home') }}">Home</a>
+            <a href="{{ route('home') }}#menu">Menu</a>
+            <a href="{{ route('home') }}#services">Services</a>
         </div>
         <div class="nav-icons">
-            <img src="{{ asset('images/search.png') }}" alt="Search">
-            <img src="{{ asset('images/cart.png') }}" alt="Cart">
-            <a href="#" class="contact-btn"><img src="{{ asset('images/vector.png') }}">Contact</a>
+            <a href="{{ route('cart') }}"><img src="{{ asset('images/cart.png') }}" alt="Cart" ></a>      
+            <a href="{{ route('profile') }}" class="contact-btn">Profile</a>
         </div>
     </div>
 

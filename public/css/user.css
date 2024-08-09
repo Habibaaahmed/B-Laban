@@ -1,0 +1,519 @@
+
+.main-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 150px 200px 150px 200px;
+ 
+}
+
+.user-profile-part {
+    text-align: center;
+}
+.profile-right-section{
+    padding: 20px;
+   
+    width: 1000px;
+    height: 400px;
+  
+    box-shadow: 1px 1px 30px rgba(39, 161, 219, 0.15);
+    margin: 53px;
+    margin-left: 73px;
+    border-radius: 30px;
+}
+.user-profile {
+    width: 180px; 
+    height: 180px; 
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+.left-section {
+    box-shadow: 1px 1px 30px rgba(39, 161, 219, 0.2);
+    padding-top: 20px;
+    width: 350px; /* Fixed width */
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 5%;
+    position: relative; /* Position relative for proper layout */
+}
+
+.right-section {
+    margin-left: 20px; /* Space between left and right sections */
+    padding: 20px;
+    width: 1000px; /* Set desired width for the right section */
+    background: none; /* Remove background */
+}
+
+
+.main-section {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: flex-start; /* Align items to the top */
+    margin: 150px 0; /* Remove left and right margins */
+}
+
+
+
+.part-section {
+    position: relative;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 270px; 
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 35px; 
+    color: #39a1db;
+    font-size: 20px;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: 0 1px 5px rgba(39, 161, 219, 0.2);
+}
+
+.separator {
+    margin-left: auto;
+    padding-left: 10px; 
+}
+
+.user-name {
+    font-size: 40px;
+    line-height: 65px;
+    display: inline-block;
+    font-family: 'David Libre';
+    color: #0066A1;
+    margin-bottom: 20px;
+}
+
+b {
+    display: inline-block;
+   
+}
+.part-section:hover {
+    background-color: #39A1DB;
+    color: white;
+}
+
+.selected-one{
+    background-color: #39A1DB;
+    color: white;
+}
+.general-info{
+    font-size: 35px;
+    display: flex;
+    color: #0066a1;
+    height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.custom-separator {
+    border: none;
+    border-top: 2px solid rgba(39, 161, 219, 1);
+    width: 985px;
+    margin-bottom: 30px;
+   
+}
+a{
+font-size: 25px;
+text-decoration: none;
+color: red;
+
+}
+.field{
+    align-self: stretch;
+    border-radius: 15px;
+    background-color: rgba(57, 161, 219, 0.08);
+    height: 60px;
+    gap: 50px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 11px 25px;
+    box-sizing: border-box;
+   
+   font-family: 'Open Sans';
+    position: relative;
+
+}
+.info-field{
+    color: #0066A1;
+    font-weight: normal;
+    font-size: 20px;
+    padding-top: 3.5px;
+}
+.part1-field{
+    color: #0066A1;
+    font-size: 26px;
+}
+.save-cancel {
+    font-size: 25px;
+    color: red;
+}
+
+/* Delete Confirmation Popup styles */
+.delete-confirmation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Message styles */
+.confirmation-message {
+    color: #0066A1;
+    font-size: 25px;
+    margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Button styles */
+button {
+    width: 150px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#confirm-delete {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+#cancel-delete {
+    background-color: rgba(0, 102, 161, 0.123);
+    color: #0066A1;
+    margin-left: 180px; /* Add margin to the left of the Cancel button to create space */
+}
+.hidden { display: none; }
+.logout-confirmation { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; }
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-confirmation {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.logout-confirmation p {
+    color: #0066A1;
+    font-size: 25px;
+    margin-bottom: 20px;
+    font-family: 'Open Sans';
+}
+.log-buttons{
+    display: flex;
+
+}
+
+.confirmation-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; z-index: 1001; }
+.confirmation-popup button { margin: 0 5px; }
+.logout-confirmation button {
+    width: 150px;
+    font-family: 'Open Sans';
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-confirmation button:hover {
+    background-color: #39A1DB;
+    color: white;
+}
+
+.logout-confirmation button:first-of-type {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.logout-confirmation button:last-of-type {
+    margin-left: auto; 
+    background-color:  rgba(0, 102, 161, 0.123);
+    color: #0066A1;
+}
+
+
+.edit-field {
+    align-self: stretch;
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Open Sans';
+    color: #0066A1;
+}
+.review-container {
+    display: flex;
+    flex-direction: column;
+ 
+    padding: 10px;
+    border-radius: 30px;
+    width: 1000px;
+    height: auto;
+}
+
+
+.review-row {
+    display: flex;
+    align-items: center; 
+    margin-bottom: 20px; 
+}
+
+.review-box {
+    box-shadow: 1px 1px 30px rgba(39, 161, 219, 0.15);
+    width: 900px; /* Adjust width to leave space for delete icon */
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.review-content {
+    width: 750px;
+    color: #000000;
+    font-size: 25px;
+    font-weight: normal;
+    font-family: David Libre;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.review-data {
+    color: #0066A1;
+    font-size: 35px;
+    font-family: David Libre;
+    font-weight: 700;
+    line-height: 55px;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.item-photo{
+    margin-right: 30px;
+    width: 90px; 
+    height: 90px; 
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  
+    margin-bottom: 15px;
+
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #f1f1f1;
+    color: #333;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 18px;
+}
+
+.pagination a:hover, .pagination span {
+    background-color: #007acc;
+    color: #fff;
+}
+
+.pagination .disabled span {
+    pointer-events: none;
+}
+.order-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 20px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+    margin-top: 10px;
+    border-radius: 30px;
+    width: 1000px;
+    height: auto;
+}
+
+.order-box {
+    box-shadow: 1px 1px 30px rgba(39, 161, 219, 0.2);
+    background-color: #ffffff;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.item-data {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.item-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-right {
+    display: flex;
+
+}
+
+.item-name {
+    font-size: 25px;
+    color: #0066A1;
+    font-family: Inter;
+}
+
+.item-price {
+    font-size: 18px;
+    color: #0066A1;
+    font-family: Inter;
+    margin-bottom: 5px;
+}
+
+.item-description {
+    font-size: 15px;
+    color: rgba(85, 85, 85, 0.8);
+    font-family: Inter;
+}
+
+.item-separator {
+    border: none;
+    border-top: 2px solid#0066A1;
+    margin: 10px 0;
+}
+
+.total-price {
+    font-size: 20px;
+    color: red;
+    font-family: Inter;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.photo{
+    margin: 15px;
+    width: 90px; 
+    height: 90px; 
+
+    object-fit: cover;
+    display: block;
+  
+  
+}
+.date{
+    margin-left: 15px;
+    color: #0066a1;
+    margin-bottom: 10px;
+    font-family: 'Open Sans';
+    font-size: 15px;
+}
+.title-section{
+    margin-top: 0;
+    margin-left: 20px;
+    font-size: 20px;
+    color: #0066a1;
+    font-family: 'Open Sans';
+}
+.delete-review {
+    width: 30px;
+    height: 30px;
+    margin-left: 20px; /* Space between review box and delete icon */
+    cursor: pointer;
+}
+.text-right-section{
+
+    padding: 20px;
+    width: 1000px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  color: rgba(92, 101, 116, 0.45);
+    margin-bottom: 53px;
+    margin-top: 20px;
+    margin-left: 73px;
+    border-radius: 30px;
+    font-size: 50px;
+    font-weight: normal;
+}
+.cart-section{
+    margin-bottom: 20px;
+}
