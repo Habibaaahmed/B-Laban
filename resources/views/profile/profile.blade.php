@@ -9,19 +9,64 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=David+Libre:wght@700&display=swap" />
-    <style>
-        /* Example CSS for hidden class and overlay */
-        .hidden { display: none; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
-        .logout-confirmation { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script>
-     document.addEventListener('DOMContentLoaded', function() {
+        
+        function deleteProfilePicture() {
+   
+    document.getElementById('delete-profile-picture-form').submit();
+}
+
+        function triggerFileInput() {
+            document.getElementById('profile-picture-input').click();
+        }
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('profile-picture');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function submitProfilePictureForm() {
+            document.getElementById('profile-picture-form').submit();
+        }
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle dropdown menu visibility
+    function toggleDropdown() {
+        const dropdownContent = document.getElementById('dropdown-content');
+        dropdownContent.classList.toggle('show');
+    }
+
+    // Add event listener for dropdown button
+    document.querySelector('.dropdown-button').addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent the click from closing the dropdown immediately
+        toggleDropdown();
+    });
+
+    // Close dropdown menu if clicked outside
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropdown-button')) {
+            const dropdowns = document.getElementsByClassName('dropdown-content');
+            for (let i = 0; i < dropdowns.length; i++) {
+                const openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // Add event listener for the delete and change picture actions
     document.querySelectorAll('.delete-review').forEach(function(button) {
         button.addEventListener('click', function() {
             const reviewId = this.getAttribute('data-id');
-
-            // Show the confirmation popup
             document.getElementById('overlay').classList.remove('hidden');
             document.getElementById('delete-confirmation').classList.remove('hidden');
             document.getElementById('confirm-delete').setAttribute('data-id', reviewId);
@@ -133,11 +178,13 @@
             const profileSectionElement = document.querySelector('.part-section:nth-child(1)'); // Assuming profile is the first section
             activateSection(profileSectionElement, '.profile-right-section');
         }
+        
 
         function logout() {
             // Handle logout logic here
             alert("Logging out...");
         }
+        
     </script>
 </head>
 
@@ -146,10 +193,36 @@
 
     <div class="main-section">
         <div class="left-section">
-            <div class="user-profile-part">
-                <img class="user-profile" alt="" src="{{ asset(auth()->user()->profile_picture) }}">
-                <b class="user-name">{{ auth()->user()->name }}</b>
+        <div class="user-profile-part">
+    <div class="profile-picture-container">
+        <img id="profile-picture" class="user-profile" alt="Profile Picture" src="{{ asset(auth()->user()->profile_picture ?? 'images/default.jpg') }}">
+        @if(auth()->user()->profile_picture && auth()->user()->profile_picture != 'images/default.jpg')
+            <div class="dropdown-menu">
+                <button class="dropdown-button" onclick="toggleDropdown()">
+                    <i class="fa fa-caret-down"></i> <!-- Dropdown icon -->
+                </button>
+                <div id="dropdown-content" class="dropdown-content">
+                    <a href="#" onclick="deleteProfilePicture()">Delete Picture</a>
+                    <a href="#" onclick="triggerFileInput()">Change Picture</a>
+                </div>
             </div>
+        @else
+            <div class="change-picture-icon" onclick="triggerFileInput()">
+                <i class="fa fa-camera"></i>
+            </div>
+        @endif
+        <form id="profile-picture-form" method="POST" action="{{ route('profile.update_picture') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*" onchange="previewImage(event); submitProfilePictureForm();">
+        </form>
+        <form id="delete-profile-picture-form" method="POST" action="{{ route('profile.delete_picture') }}">
+    @csrf
+    @method('POST') 
+</form>
+
+    </div>
+    <b class="user-name">{{ auth()->user()->name }}</b>
+</div>
             <div class="part-section selected-one" onclick="activateSection(this, '.profile-right-section')">
                 <b>Profile</b>
                 <b class="separator">></b>
@@ -206,69 +279,71 @@
 </form>
 
         </div>
-        <div class="right-section myorders-right-section hidden">
+        @php
+    // Number of orders per page
+    $perPage = 2;
+    // Current page from query string, default to 1
+    $currentPage = request()->get('page', 1);
+    // Calculate offset
+    $offset = ($currentPage - 1) * $perPage;
+    // Slice orders for current page
+    $ordersForCurrentPage = $orders->slice($offset, $perPage);
+    // Total number of pages
+    $totalPages = ceil($orders->count() / $perPage);
+@endphp
+
+<div class="right-section myorders-right-section hidden">
     <b class="title-section">Order History</b>
-
+    @if ($orders->isEmpty())
+        <b class="text-right-section">NO ORDERS</b>
+    @else
     <div class="order-container">
-        <!-- First Order Box with Two Items -->
-        <div class="order-box">
-       
-        <b class="date">Date: 4/8/2024 </b>
-       
-            <div class="order-item">
-                <img class="item-photo" alt="" src="{{ asset('images/mango_qonbela_rice_pudding.jpg') }}">
-                <div class="item-data">
-                    <div class="item-left">
-                        <b class="item-name">Item 1</b>
-                        <b class="item-description">Description of Item 1</b>
-                    </div>
-                    <div class="item-right">
-                        <b class="item-price">240.00 L.E</b>
-                    </div>
-                </div>
-            </div>
-            <hr class="item-separator">
-            <div class="order-item">
-                <img class="item-photo" alt="" src="{{ asset('images/mango_qonbela_rice_pudding.jpg') }}">
-                <div class="item-data">
-                    <div class="item-left">
-                        <b class="item-name">Item 2</b>
-                        <b class="item-description">Description of Item 2</b>
-                    </div>
-                    <div class="item-right">
-                        <b class="item-price">160.00 L.E</b>
-                    </div>
-                </div>
-            </div>
-            <b class="total-price">Total: 400.00 L.E</b>
-        </div>
+        @foreach ($ordersForCurrentPage as $order)
+            <div class="order-box">
+                <b class="date">Date: {{ $order->created_at->format('d/m/Y') }}</b>
 
-        <!-- Second Order Box with One Item -->
-        <div class="order-box">
-        <b class="date">Date: 24/6/2024 </b>
-            <div class="order-item">
-                <img class="item-photo" alt="" src="{{ asset('images/mango_qonbela_rice_pudding.jpg') }}">
-                <div class="item-data">
-                    <div class="item-left">
-                        <b class="item-name">Item 3</b>
-                        <b class="item-description">Description of Item 3</b>
+                @foreach ($order->orderItems as $item)
+                    <div class="order-item">
+                        <img class="item-photo" alt="" src="{{ asset('images/' . $item->product->image) }}">
+                        <div class="item-data">
+                            <div class="item-left">
+                                <b class="item-name">{{ $item->product->name }}</b>
+                                <b class="item-description">{{ $item->product->description }}</b>
+                            </div>
+                            <div class="item-right">
+                                <b class="item-price">{{ number_format($item->price, 2) }} L.E</b>
+                            </div>
+                        </div>
+                        <hr class="item-separator">
                     </div>
-                    <div class="item-right">
-                        <b class="item-price">200.00 L.E</b>
-                    </div>
-                </div>
+                @endforeach
+
+                <b class="total-price">Total: {{ number_format($order->total_amount, 2) }} L.E</b>
             </div>
-            <b class="total-price">Total: 200.00 L.E</b>
-        </div>
+        @endforeach
     </div>
 
     <!-- Pagination Arrows -->
+    @if ($totalPages > 1)
     <ul class="pagination">
+        <!-- Previous Page -->
+ <!-- Previous Page -->
+        @if ($currentPage > 1)
+            <li><a href="?page={{ $currentPage - 1 }}" rel="prev" ><</a></li>
+        @else
+            <li class="disabled"><span><</span></li>
+        @endif
 
-        <li><a href="#" rel="prev" class="prev-arrow"><</a></li>
-        <li><a href="#" rel="next" class="next-arrow">></a></li>
-       
+        <!-- Next Page -->
+        @if ($currentPage < $totalPages)
+            <li><a href="?page={{ $currentPage + 1 }}" rel="next" >></a></li>
+        @else
+            <li class="disabled"><span>></span></li>
+        @endif
+
     </ul>
+    @endif
+    @endif
 </div>
 <div class="right-section myreviews-right-section hidden">
     <b class="title-section">Reviews</b>
@@ -317,7 +392,6 @@
             <button type="button" id="cancel-delete">Cancel</button>
         </form>
     </div>
-
 <div class="right-section logout-right-section hidden">
     <div id="overlay" class="overlay hidden"></div>
     <div id="logout-confirmation" class="logout-confirmation hidden">
@@ -333,6 +407,4 @@
     </div></div>
     <x-footer />
 </body>
-
-
 </html>

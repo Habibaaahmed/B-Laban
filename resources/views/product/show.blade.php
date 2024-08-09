@@ -11,6 +11,49 @@
             padding: 0;
             background-color: #f8f8f8;
         }
+        .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+}
+
+.confirmation-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 1001;
+    display: none;
+}
+
+.confirmation-message {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#close-popup {
+    background-color: #48a9e6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#close-popup:hover {
+    background-color: #39a1db;
+}
+
         .container {
             max-width: 800px;
             margin: auto;
@@ -188,6 +231,49 @@
         <p>Please <a href="{{ route('login') }}">login</a> to leave a review.</p>
         @endauth
     </div>
+    <div id="overlay" class="overlay hidden"></div>
+<div id="confirmation-popup" class="confirmation-popup hidden">
+    <p class="confirmation-message">Product added to cart!</p>
+    <button type="button" id="close-popup">Close</button>
+</div>
+
     <x-footer />
+    <script>
+  document.querySelector('.add-to-cart button').addEventListener('click', function() {
+    const productId = "{{ $product->id }}";
+    const quantity = document.querySelector('.add-to-cart input[name="quantity"]').value;
+
+    fetch("{{ route('cart.add') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showConfirmationPopup();
+        } 
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function showConfirmationPopup() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('confirmation-popup').style.display = 'block';
+}
+
+document.getElementById('close-popup').addEventListener('click', function() {
+    document.getElementById('confirmation-popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+});
+
+</script>
+
 </body>
 </html>

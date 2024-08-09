@@ -57,9 +57,27 @@ class AuthController extends Controller
         // Log the user in
         Auth::login($user);
 
-        return redirect()->route('homescreen.index')->with('success', 'Registration successful.');
+        return redirect()->route('home')->with('success', 'Registration successful.');
     }
+    public function updateProfilePicture(Request $request)
+{
+    $request->validate([
+        'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
+    $user = Auth::user();
+
+    // Store the image
+    $imageName = time() . '.' . $request->profile_picture->extension();
+    $request->profile_picture->move(public_path('images/profiles'), $imageName);
+    
+    /** @var \App\Models\User $user **/
+    // Update user's profile picture path
+    $user->profile_picture = 'images/profiles/' . $imageName;
+    $user->save();
+
+    return redirect()->route('profile')->with('success', 'Profile picture updated successfully.');
+}
 
     public function logout(Request $request)
     {

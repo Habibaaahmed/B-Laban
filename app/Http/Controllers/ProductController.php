@@ -11,6 +11,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::with('reviews.user')->findOrFail($id);
+        
         return view('product.show', compact('product'));
     }
 

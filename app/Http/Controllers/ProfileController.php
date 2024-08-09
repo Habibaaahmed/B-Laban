@@ -4,15 +4,31 @@ namespace App\Http\Controllers;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
+
 
 class ProfileController extends Controller
 {
+ 
+
+public function deletePicture(Request $request)
+{
+    $user = Auth::user();
+    $user->profile_picture = 'images/default.jpg'; 
+    /** @var \App\Models\User $user **/
+    $user->save();
+
+    return redirect()->route('profile')->with('success', 'Profile picture deleted successfully.');
+}
+
     public function show()
     {
-        return view('profile.profile'); 
+        $orders = Order::where('user_id', auth::id())->with('orderItems')->get();
+        return view('profile.profile', compact('orders')); 
     }
     public function update(Request $request)
     {
+        
         // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|max:255',

@@ -341,7 +341,8 @@
     </div>
     <div class="category-grid" id="dish-grid">
         @foreach($dishes as $dish)
-            <div class="dish-card">
+        <a href="{{ route('product.show', ['id' => $dish->id]) }}" class="dish-card"style="text-decoration: none;color: inherit;">
+           
                 <img src="{{ asset('images/' . $dish->image) }}" alt="{{ $dish->name }}">
                 <div class="name">{{ $dish->name }}</div>
                 <div class="description">{{ $dish->description }}</div>
@@ -355,7 +356,7 @@
                         ⭐
                     @endif
                 </div>
-            </div>
+                </a>
         @endforeach
     </div>
 
