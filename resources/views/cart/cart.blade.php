@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=David+Libre:wght@700&display=swap" />
     <title>cart</title>
 </head>
+
 <body>
       <x-navbar />
       <div class="main">
@@ -110,11 +111,16 @@
             </div>
         </div>
         <!-- Pay button -->
-        <button class="pay-button">Pay</button>
+        <button class="pay-button" id="payButton">Pay</button>
     </div>
 </div>
 
 </div>
       <x-footer />
+      <script>
+        document.getElementById('payButton').addEventListener('click', function() {
+            window.location.href = "{{ route('success') }}";
+        });
+    </script>
 </body>
 </html>

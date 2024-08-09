@@ -41,3 +41,6 @@ Route::post('product/{id}/review', [ReviewController::class, 'store'])->middlewa
 Route::get('/profile', function () {
     return view('profile.profile');
 })->name('profile');
+Route::get('/success', function () {
+    return view('cart.success');
+})->name('success');
