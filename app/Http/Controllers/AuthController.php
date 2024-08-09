@@ -6,11 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -31,6 +31,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            // Redirect to the home page after successful login
             return redirect()->route('home')->with('success', 'Logged in successfully.');
         }
 
@@ -38,25 +39,27 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
+            'password' => 'required|string|confirmed|min:8', // Ensure password confirmation is required
         ]);
 
+        // Create the user and hash the password
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
         ]);
 
+        // Log the user in
         Auth::login($user);
 
         return redirect()->route('homescreen.index')->with('success', 'Registration successful.');
     }
+
 
     public function logout(Request $request)
     {
@@ -64,7 +67,6 @@ class AuthController extends Controller
         toastr()->success('Logout successful!');
         return redirect()->route('login');
     }
-
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -73,7 +75,7 @@ class AuthController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+            $googleUser = Socialite::driver('google')->user();
 
             $user = User::updateOrCreate([
                 'email' => $googleUser->getEmail(),

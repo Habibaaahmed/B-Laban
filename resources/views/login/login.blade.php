@@ -116,5 +116,3 @@
 </section>
 
 @endsection
-<script src="{{ asset('vendor/flasher/flasher.min.js') }}"></script>
-

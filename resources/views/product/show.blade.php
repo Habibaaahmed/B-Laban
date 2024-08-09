@@ -189,5 +189,34 @@
         @endauth
     </div>
     <x-footer />
+    <script>
+    document.querySelector('.add-to-cart button').addEventListener('click', function() {
+        const productId = "{{ $product->id }}";
+        const quantity = document.querySelector('.add-to-cart input[name="quantity"]').value;
+
+        fetch("{{ route('cart.add') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Product added to cart!');
+                // Optionally, update the cart display on the page
+            } else {
+                alert('Failed to add product to cart.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
 </body>
 </html>
